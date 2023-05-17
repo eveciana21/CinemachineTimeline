@@ -10,8 +10,11 @@ public class CameraSwitch : MonoBehaviour
     [SerializeField] private GameObject _target2;
 
     private bool _firstTarget;
-    private bool _resetFOV;
 
+    private void Start()
+    {
+        _virtualcam1.GetComponent<CinemachineVirtualCamera>().m_Lens.FieldOfView = 60;
+    }
 
     void Update()
     {
@@ -19,26 +22,21 @@ public class CameraSwitch : MonoBehaviour
         {
             SwitchTarget();
         }
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            float _FOV = _virtualcam1.GetComponent<CinemachineVirtualCamera>().m_Lens.FieldOfView -= 20;
-
-            if (_FOV < 20)
-            {
-                _virtualcam1.GetComponent<CinemachineVirtualCamera>().m_Lens.FieldOfView = 60;
-            }
-
-           /* if (_FOV.m_Lens.FieldOfView < 20)
-            {
-                _resetFOV = true;
-            }
-            if (_resetFOV == true)
-            {
-                _FOV.m_Lens.FieldOfView = 60;
-            }*/
+            CameraZoom();
         }
     }
+    private void CameraZoom()
+    {
+        float _FOV = _virtualcam1.GetComponent<CinemachineVirtualCamera>().m_Lens.FieldOfView -= 20;
 
+        if (_FOV < 20)
+        {
+            _virtualcam1.GetComponent<CinemachineVirtualCamera>().m_Lens.FieldOfView = 60;
+        }
+    }
     private void SwitchTarget()
     {
         if (_firstTarget == true)
@@ -52,4 +50,7 @@ public class CameraSwitch : MonoBehaviour
             _firstTarget = true;
         }
     }
+
+
+
 }
